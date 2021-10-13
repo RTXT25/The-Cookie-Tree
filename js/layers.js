@@ -31,7 +31,7 @@ addLayer("", {
         // Look in the upgrades docs to see what goes here!
     },
 })
-addLayer("U", {
+addLayer("u", {
     name: "U",
     startData() { return {                  // startData is a function that returns default data for a layer. 
         unlocked: false,                     // You can add more variables here to add them to your layer.
@@ -92,8 +92,91 @@ addLayer("c", {
     },
 
     layerShown() { return true },          // Returns a bool for if this layer's node should be visible in the tree.
+        
+    clickables:{
+        11:{
+            Title: "cookie",
+            display() {return "Click to get cookies (imagine this is a cookie)"},
+            canClick() {return true},
+            onclick() {return}
+        }
+    },
+
 
     upgrades: {
         // Look in the upgrades docs to see what goes here!
+    },
+})
+addLayer("cu", {
+    name: "cursors",
+    startData() { return {                  // startData is a function that returns default data for a layer. 
+        unlocked: false,                     // You can add more variables here to add them to your layer.
+        points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+    }},
+
+    color: "#4BDC13",                       // The color for this layer, which affects many elements.
+    resource: "",            // The name of this layer's main prestige resource.
+    row: 1,                                 // The row this layer is on (0 is the first row).
+
+    baseResource: "Cookies",                 // The name of the resource your prestige gain is based on.
+    baseAmount() { return player.points },  // A function to return the current amount of baseResource.
+
+    requires: new Decimal(10),              // The amount of the base needed to  gain 1 of the prestige currency.
+                                            // Also the amount required to unlock the layer.
+
+    type: "normal",                         // Determines the formula used for calculating prestige currency.
+    exponent: 0.5,                          // "normal" prestige gain is (currency^exponent).
+
+    gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
+        return new Decimal(1)               // Factor in any bonuses multiplying gain here.
+    },
+    gainExp() {                             // Returns the exponent to your gain of the prestige resource.
+        return new Decimal(1)
+    },
+
+    layerShown() { return true },          // Returns a bool for if this layer's node should be visible in the tree.
+
+    buyables: {
+            11: {
+                title: "Cursors", // Optional, displayed at the top in a larger font
+                cost(x) { // cost for buying xth buyable, can be an object if there are multiple currencies
+                    if (x.gte(100)) x = x.pow(2).div(25)
+                    let cost = Decimal.pow(2, x.pow(1.5))
+                    return cost.floor()
+                },
+                effect(x) { // Effects of owning x of the items, x is a decimal
+                    let eff = {}
+                    if (x.gte(0)) eff.first = Decimal.pow(25, x.pow(1.1))
+                    else eff.first = Decimal.pow(1/25, x.times(-1).pow(1.1))
+                
+                    if (x.gte(0)) eff.second = x.pow(0.8)
+                    else eff.second = x.times(-1).pow(0.8).times(-1)
+                    return eff;
+                },
+                display() { // Everything else displayed in the buyable button after the title
+                    let data = tmp[this.layer].buyables[this.id]
+                    return "Cost: " + format(data.cost) + " Cookies\n\
+                    Amount: " + player[this.layer].buyables[this.id] + "/4\n\
+                    and clicks " + format(data.effect.first) + " cookies Per Second"
+                },
+                unlocked() { return true }, 
+                canAfford() {
+                    return player[this.layer].points.gte(tmp[this.layer].buyables[this.id].cost)},
+                buy() { 
+                    cost = tmp[this.layer].buyables[this.id].cost
+                    player[this.layer].points = player[this.layer].points.sub(cost)	
+                    player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].add(1)
+                    player[this.layer].spentOnBuyables = player[this.layer].spentOnBuyables.add(cost) // This is a built-in system that you can use for respeccing but it only works with a single Decimal value
+                },
+                buyMax() {}, // You'll have to handle this yourself if you want
+                style: {'height':'222px'},
+                purchaseLimit: new Decimal(4),
+                sellOne() {
+                    let amount = getBuyableAmount(this.layer, this.id)
+                    if (amount.lte(0)) return // Only sell one if there is at least one
+                    setBuyableAmount(this.layer, this.id, amount.sub(1))
+                    player[this.layer].points = player[this.layer].points.add(this.cost)
+                },
+            } // Look in the upgrades docs to see what goes here!
     },
 })
