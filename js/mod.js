@@ -1,14 +1,14 @@
 let modInfo = {
-	name: "War Tree",
-	id: "wartree",
+	name: "Cookie Clicker Tree",
+	id: "cookietree",
 	author: "RTXT25",
-	pointsName: "War Points",
+	pointsName: "Cookies",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
-	offlineLimit: 24,  // In hours
+	offlineLimit: 69696969,  // In hours
 }
 
 // Set your version in num and name
@@ -22,7 +22,7 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added things.<br>
 		- Added stuff.`
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `there is no end but this screen is here so i guess GG`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -42,9 +42,6 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 	let gain = new Decimal(1)
-	if (hasUpgrade('DEV', 11)) gain = gain.times(1.00e99)
-	if (hasUpgrade('E', 11)) gain = gain.times(2)
-	if (hasUpgrade('E', 12)) gain = gain.times(upgradeEffect('E', 12))
 	return gain
 }
 
