@@ -41,6 +41,7 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
+		if (getBuyableAmount("cu", 11).gt(0)) gain = gain + 0.1
 	let gain = new Decimal(1)
 	return gain
 }

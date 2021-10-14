@@ -67,21 +67,21 @@ addLayer("u", {
 addLayer("c", {
     name: "Cookies",
     startData() { return {                  // startData is a function that returns default data for a layer. 
-        unlocked: false,                     // You can add more variables here to add them to your layer.
+        unlocked: true,                     // You can add more variables here to add them to your layer.
         points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
     }},
 
     color: "#ad6915",                       // The color for this layer, which affects many elements.
-    resource: "cookies",            // The name of this layer's main prestige resource.
+    resource: "",            // The name of this layer's main prestige resource.
     row: 0,                                 // The row this layer is on (0 is the first row).
 
     baseResource: "Cookies",                 // The name of the resource your prestige gain is based on.
     baseAmount() { return player.points },  // A function to return the current amount of baseResource.
 
-    requires: new Decimal(10),              // The amount of the base needed to  gain 1 of the prestige currency.
+    //requires: new Decimal(0),              // The amount of the base needed to  gain 1 of the prestige currency.
                                             // Also the amount required to unlock the layer.
 
-    type: "normal",                         // Determines the formula used for calculating prestige currency.
+    type: "none",                         // Determines the formula used for calculating prestige currency.
     exponent: 0.5,                          // "normal" prestige gain is (currency^exponent).
 
     gainMult() {                            // Returns your multiplier to your gain of the prestige resource.
@@ -110,8 +110,8 @@ addLayer("c", {
 addLayer("cu", {
     name: "cursors",
     startData() { return {                  // startData is a function that returns default data for a layer. 
-        unlocked: false,                     // You can add more variables here to add them to your layer.
-        points: new Decimal(0),             // "points" is the internal name for the main resource of the layer.
+        unlocked: true,                     // You can add more variables here to add them to your layer.
+        points: new Decimal(10),             // "points" is the internal name for the main resource of the layer.
     }},
 
     color: "#4BDC13",                       // The color for this layer, which affects many elements.
@@ -121,7 +121,7 @@ addLayer("cu", {
     baseResource: "Cookies",                 // The name of the resource your prestige gain is based on.
     baseAmount() { return player.points },  // A function to return the current amount of baseResource.
 
-    requires: new Decimal(10),              // The amount of the base needed to  gain 1 of the prestige currency.
+    requires: new Decimal(),              // The amount of the base needed to  gain 1 of the prestige currency.
                                             // Also the amount required to unlock the layer.
 
     type: "normal",                         // Determines the formula used for calculating prestige currency.
@@ -146,18 +146,13 @@ addLayer("cu", {
                 },
                 effect(x) { // Effects of owning x of the items, x is a decimal
                     let eff = {}
-                    if (x.gte(0)) eff.first = Decimal.pow(25, x.pow(1.1))
-                    else eff.first = Decimal.pow(1/25, x.times(-1).pow(1.1))
-                
-                    if (x.gte(0)) eff.second = x.pow(0.8)
-                    else eff.second = x.times(-1).pow(0.8).times(-1)
+
                     return eff;
                 },
                 display() { // Everything else displayed in the buyable button after the title
                     let data = tmp[this.layer].buyables[this.id]
                     return "Cost: " + format(data.cost) + " Cookies\n\
-                    Amount: " + player[this.layer].buyables[this.id] + "/4\n\
-                    and clicks " + format(data.effect.first) + " cookies Per Second"
+                    Amount: " + player[this.layer].buyables[this.id]
                 },
                 unlocked() { return true }, 
                 canAfford() {
@@ -170,13 +165,6 @@ addLayer("cu", {
                 },
                 buyMax() {}, // You'll have to handle this yourself if you want
                 style: {'height':'222px'},
-                purchaseLimit: new Decimal(4),
-                sellOne() {
-                    let amount = getBuyableAmount(this.layer, this.id)
-                    if (amount.lte(0)) return // Only sell one if there is at least one
-                    setBuyableAmount(this.layer, this.id, amount.sub(1))
-                    player[this.layer].points = player[this.layer].points.add(this.cost)
-                },
             } // Look in the upgrades docs to see what goes here!
     },
 })
