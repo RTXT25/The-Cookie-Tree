@@ -345,15 +345,20 @@ function isPlainObject(obj) {
 
 document.title = gameInfo.name
 
-// Converts a string value to whatever it's supposed to be
+// Converts an input value to whatever it's supposed to be
 function toValue(value, oldValue) {
 	if (oldValue instanceof Decimal) {
 		value = new Decimal (value)
-		if (checkDecimalNaN(value)) return decimalZero
+		if (checkDecimalNaN(value)) return oldValue
+		return value
+	}
+	if (typeof oldValue === 'string' ) {
+		value = value.toString()
 		return value
 	}
 	if (!isNaN(oldValue)) 
-		return parseFloat(value) || 0
+		value = parseFloat(value)
+		if (isNaN(value)) return oldValue
 	return value
 }
 

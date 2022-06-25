@@ -1,5 +1,5 @@
 let gameInfo = {
-	name: "The ??? Tree",
+	name: "The ??? Game",
 	id: "mygame",
 	author: "nobody",
 	pointsName: "points",

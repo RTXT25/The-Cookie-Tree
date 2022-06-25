@@ -8,12 +8,14 @@
 - Upgrade effectDisplay and grid tooltip no longer display if they return "".
 - devSpeed can be 0.
 
+- Fixed an issue with text-input not converting types correctly.
+- Text-input now goes back to the old value if an invalid value is entered.
 
 
-# v2.6.6.2 = 9/9/21
+# v2.6.6.2 - 9/9/21
 - nodeStyle can now be used to set fonts.
 
-# v2.6.6.1 = 9/8/21
+# v2.6.6.1 - 9/8/21
 - Fixed options not updating when new ones are added.
 
 # v2.6.6 - 9/7/21

@@ -45,7 +45,7 @@ These are the existing components, but you can create more in [components.js](/j
 
 - prestige-button: The button to reset for a currency in this layer.
 
-- text-input: A text input box. The argument is the name of the variable in player[layer] that the input is for, player[layer][argument]
+- text-input: A text input box. The argument is the name of the variable in startData/player[layer] that the input is for, player[layer][argument]
     (Works with strings, numbers, and Decimals!)
 
 - slider: Lets the user input a value with a slider. The argument a 3-element array: [name, min, max].
