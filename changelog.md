@@ -1,18 +1,18 @@
-# Incrementum changelog:
+# Incrementum 3.0 changelog:
 
 - Changed the name to "Incrementum" and replaced all instances of "mod" with "game". game.js has been renamed incrementum.js, and mod.js is now game.js.
 - Added linear and quadratic prestige types, improved the prestige type system.
 - Added "pluralize" function, and made main point displays correctly use singular and plural (if singular is supplied).
+- Enforced changing the game's id (formerly modId) to stop saves from being overwritten.
 - Added this.data and this.tmp shortcuts.
 
-- Upgrade effectDisplay and grid tooltip no longer display if they return "".
-- devSpeed can be 0.
 
 - Fixed an issue with text-input not converting types correctly.
 - Text-input now goes back to the old value if an invalid value is entered.
+- Upgrade effectDisplay and grid tooltip no longer display if they return "".
+- devSpeed can be 0.
 
-
-# v2.6.6.2 - 9/9/21
+# TMT v2.6.6.2 - 9/9/21
 - nodeStyle can now be used to set fonts.
 
 # v2.6.6.1 - 9/8/21
