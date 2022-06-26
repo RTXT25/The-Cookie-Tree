@@ -1,6 +1,7 @@
 // ************ Save stuff ************
 function save(force) {
 	NaNcheck(player)
+	if (gameInfo.id == "mygame") return
 	if (NaNalert && !force) return
 	localStorage.setItem(gameInfo.id, btoa(unescape(encodeURIComponent(JSON.stringify(player)))));
 	localStorage.setItem(gameInfo.id+"_options", btoa(unescape(encodeURIComponent(JSON.stringify(options)))));
